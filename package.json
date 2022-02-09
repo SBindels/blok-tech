@@ -1,0 +1,26 @@
+{
+  "name": "blok-tech",
+  "version": "1.0.0",
+  "description": "project for blok-tech",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SBindels/blok-tech.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SBindels/blok-tech/issues"
+  },
+  "homepage": "https://github.com/SBindels/blok-tech#readme",
+  "dependencies": {
+    "camelcase": "^6.3.0",
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
