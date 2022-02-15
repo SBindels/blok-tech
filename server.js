@@ -1,18 +1,26 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const handlebars = require('express-handlebars');
+
+app.engine('handlebars', handlebars({
+    layoutsDir: __dirname + '/views/layouts',
+    }));
+app.set('view engine', 'handlebars');
+app.set('views', './views');
+
+
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+    //Serves the body of the page aka "main.handlebars" to the container //aka "index.handlebars"
+    res.render('main', {layout : 'index'});
+    });
+
+app.get('*', (req, res) => {
+    res.send('error')
 })
 
-app.get('/aboutme', (req, res) => {
-    res.send('this is the about me page!')
-  })
-
-app.get('/login', (req, res) => {
-    res.send('welcome to the login page')
-  })
+app.use(express.static('public'))
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
