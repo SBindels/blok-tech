@@ -1,11 +1,11 @@
 const express = require('express')
 const app = express()
 const port = 3000
-const handlebars = require('express-handlebars');
 const ejs = require('ejs');
 const req = require('express/lib/request');
 
-//require('dotenv').config();
+require('dotenv').config()
+console.log(process.env)
 
 //routes
 express()

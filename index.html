@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="public/style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <main>
+    <h1>Registratie</h1>
+    <section class="registratie">
+      <form action=/registerUser method="post">
+        <fieldset>
+          <label for="voornaam">voornaam</label>
+          <input type="text" name="voornaam" placeholder="voornaam" required/>
+        </fieldset>
+
+        <fieldset>
+          <label for="emailadres">emailadres</label>
+          <input type="email" name="emailadres" placeholder="emailadres" required />
+        </fieldset>
+
+        <fieldset>
+          <label for="pass">Wachtwoord</label>
+          <input type="password" name="wachtwoord" required />
+        </fieldset>
+        <button type="submit">registreer</button>
+      </form>
+
+      <a href="login.html">inloggen</a>
+    </section>
+    </main>
+  </body>
+</html>
