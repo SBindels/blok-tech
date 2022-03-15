@@ -5,7 +5,7 @@ const bodyparser = require("body-parser");
 const ejs = require('ejs');
 const req = require('express/lib/request');
 const session = require("express-session");
-const port = process.env.port || 5000;
+const port = process.env.port || 8888;
 ObjectId = require("mongodb").ObjectID;
 
 require('dotenv').config()
@@ -64,7 +64,7 @@ express()
   .get("/loginFailed", compareCredentials)
   .post("/update", updatePassword)
   .use(pageNotFound)
-  .listen(5000);
+  .listen(8888);
 
 function users(req, res, next) {
     db.collection("users").find().toArray(done);
@@ -88,9 +88,9 @@ function Registratieform(req, res) {
 
 //Functie dat data verzend naar mijn MongoDB database
 function registerUser(req, res, next) {
-    db.collection("users").insertOne(
+    db.collection("users").insertOne( //db collectie 'users'
       {
-        naam: req.body.voornaam,
+        naam: req.body.voornaam, //het maken van een json object om vervolgens in de database te plaatsen
         email: req.body.emailadres,
         wachtwoord: req.body.wachtwoord,
       },
@@ -101,7 +101,7 @@ function registerUser(req, res, next) {
       if (err) {
         next(err);
       } else {
-        res.redirect("/login");
+        res.redirect("/login"); //redirect naar de login pagina
       }
     }
   }
