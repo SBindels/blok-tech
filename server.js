@@ -23,7 +23,6 @@ const MongoClient = require("mongodb").MongoClient;
 //   process.env.DB_PASS +
 //   "@cluster0-abpqe.mongodb.net/test?retryWrites=true&w=majority";
 
-const uri = "mongodb+srv://sjoerdb:pix1R7hgrHH76d4k@datingapp.abpqe.mongodb.net/test";
 
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
