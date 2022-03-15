@@ -6,22 +6,24 @@ const ejs = require('ejs');
 const req = require('express/lib/request');
 const session = require("express-session");
 const port = process.env.port || 8888;
-ObjectId = require("mongodb").ObjectID;
+//ObjectId = require("mongodb").ObjectID;
 
 require('dotenv').config()
 console.log(process.env)
 
 //MongoDB database
-let db = null;
+let db;
 let collectionUsers;
 const MongoClient = require("mongodb").MongoClient;
 
-const uri =
-  "mongodb+srv://" +
-  process.env.DB_USER +
-  ":" +
-  process.env.DB_PASS +
-  "@cluster0-abpqe.mongodb.net/test?retryWrites=true&w=majority";
+// const uri =
+//   "mongodb+srv://" +
+//   process.env.DB_USER +
+//   ":" +
+//   process.env.DB_PASS +
+//   "@cluster0-abpqe.mongodb.net/test?retryWrites=true&w=majority";
+
+const uri = "mongodb+srv://sjoerdb:pix1R7hgrHH76d4k@datingapp.abpqe.mongodb.net/test";
 
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
@@ -33,15 +35,15 @@ client.connect(function (err, client) {
   if (err) {
     throw err;
   }
-  collectionUsers = client.db("mydatingapp").collection("users");
+  collectionUsers = client.db("mydatingapp").collection("user");
 });
 
 let data = {
-  title: "datingapp",
+  title: "mydatingapp",
 };
 
 //routes
-express()
+app
   .use(express.static("public")) // gebruik de template engine EJS
   .set("view engine", "ejs")
   .set("views", "view") // EJS files staan in /views
@@ -55,19 +57,17 @@ express()
   )
   .get("/", users)
   .get("/registratie", Registratieform)
-
   .get("/login", loginForm)
-
   .post("/login", compareCredentials)
   .post("/registratie", registerUser)
   .get("/loginDone", compareCredentials)
   .get("/loginFailed", compareCredentials)
   .post("/update", updatePassword)
-  .use(pageNotFound)
-  .listen(8888);
+  .use(pageNotFound);
+  //.listen(8888);
 
 function users(req, res, next) {
-    db.collection("users").find().toArray(done);
+    db.collection("user").find().toArray(done);
   
     function done(err, data) {
       if (err) {
@@ -77,6 +77,10 @@ function users(req, res, next) {
       }
     }
   }
+
+app.get('/', (req, res) => {
+    res.render('login.ejs');
+});
 
 function loginForm(req, res) {
     res.render("login.ejs", { data });
@@ -88,7 +92,7 @@ function Registratieform(req, res) {
 
 //Functie dat data verzend naar mijn MongoDB database
 function registerUser(req, res, next) {
-    db.collection("users").insertOne( //db collectie 'users'
+    db.collection("user").insertOne( //db collectie 'user'
       {
         naam: req.body.voornaam, //het maken van een json object om vervolgens in de database te plaatsen
         email: req.body.emailadres,
@@ -108,7 +112,7 @@ function registerUser(req, res, next) {
 
   //Functie voor het vergelijken van de gebruiker zijn emailadres en wachtwoord
 function compareCredentials(req, res) {
-    db.collection("users").findOne(
+    db.collection("user").findOne(
       {
         email: req.body.emailadres,
       },
@@ -150,16 +154,9 @@ function updatePassword(req, res) {
     res.redirect("/login");
   }
 
-
-app.get('*', (req, res) => {
-    res.send('error')
-})
-
 function pageNotFound(req, res) {
     res.render("404.ejs");
   }
-
-app.use(express.static('public'))
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
