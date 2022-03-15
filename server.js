@@ -24,6 +24,7 @@ const MongoClient = require("mongodb").MongoClient;
 //   "@cluster0-abpqe.mongodb.net/test?retryWrites=true&w=majority";
 
 
+
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -38,7 +39,7 @@ client.connect(function (err, client) {
 });
 
 let data = {
-  title: "mydatingapp",
+  title: "mydatingapp"
 };
 
 //routes
@@ -78,7 +79,7 @@ function users(req, res, next) {
   }
 
 app.get('/', (req, res) => {
-    res.render('login.ejs');
+    res.render('login.ejs', { data });
 });
 
 function loginForm(req, res) {
@@ -126,7 +127,7 @@ function compareCredentials(req, res) {
         if (data.wachtwoord === req.body.wachtwoord) {
           console.log("succesvol ingelogd :)");
           req.session.user = data.username;
-          res.redirect("/findMatch");
+          res.redirect("/loginDone");
           // res.send("hoi");
         } else {
           console.log("login mislukt :(");
@@ -141,7 +142,7 @@ function updatePassword(req, res) {
     let users = req.session.emailadres;
     console.log(users._id);
   
-    db.collection("users").updateOne(
+    db.collection("user").updateOne(
       { _id: mongo.ObjectId(users._id) },
       {
         $set: {
