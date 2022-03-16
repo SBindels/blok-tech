@@ -5,36 +5,26 @@ const bodyparser = require("body-parser");
 const ejs = require('ejs');
 const req = require('express/lib/request');
 const session = require("express-session");
-const passport = require('passport')
-const LocalStrategy = require('passport-local')
+const bcrypt = require('bcrypt')
+const passport = require('passport');
+const { default: mongoose } = require('mongoose');
+const LocalStrategy = require('passport-local').Strategy
 const port = process.env.port || 8888;
 
 require('dotenv').config()
 console.log(process.env)
 
-//MongoDB database
+//MongoDB database connection
 let db = null;
-//let collectionUsers;
 const MongoClient = require("mongodb").MongoClient;
 
-// // const uri =
-// //   "mongodb+srv://" +
-// //   process.env.DB_USER +
-// //   ":" +
-// //   process.env.DB_PASS +
-// //   "@cluster0-abpqe.mongodb.net/test?retryWrites=true&w=majority";
-
-
-
-
-
+const uri = "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASS + "@datingapp.abpqe.mongodb.net/test";
 
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-//database connect
 client.connect(function (err, client) {
   console.log('connected to the database');
   if (err) {
@@ -43,6 +33,15 @@ client.connect(function (err, client) {
   db = client.db("mydatingapp");
 });
 
+//proberen mongoose ipv mongodb voor passport
+// mongoose.connect(
+//   "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASS + "@datingapp.abpqe.mongodb.net/test",
+//   console.log('connected to the database via mongoose'),
+//   {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+//   }
+// );
 
 let data = {
   title: "datingapp",
@@ -50,28 +49,12 @@ let data = {
 
 //exports.data = data;
 
-//new connection database van altas copy
-
-// const { MongoClient, ServerApiVersion } = require('mongodb');
-// const uri = "mongodb+srv://sjoerdb:pix1R7hgrHH76d4k@datingapp.abpqe.mongodb.net/datingapp?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-// client.connect(err => {
-//   const db = client.db("datingapp").collection("mydatingapp");
-//   console.log('connected to the database');
-//   // perform actions on the collection object
-//   client.close();
-// });
-
-
-
 //routes
 app
   .use(express.static("public")) // gebruik de template engine EJS
   .set("view engine", "ejs")
   .set("views", "view") // EJS files staan in /views
   .use(bodyparser.urlencoded({ extended: true })) // body-parser krijg je toegang tot Request body objecten zoals req.body.voornaam
-  .use(passport.initialize())
-  .use(passport.session())
   .use(
     session({
       secret: process.env.SESSION_SECRET,
@@ -83,10 +66,10 @@ app
   .get("/registratie", Registratieform)
   .get("/login", loginForm)
   .get("/loginSucces", loginSucces)
-  //.post("/login", compareCredentials)
+  .post("/login", compareCredentials)
   .post("/registratie", registerUser)
-  //.get("/loginDone", compareCredentials)
-  //.get("/loginFailed", compareCredentials)
+  .get("/loginDone", compareCredentials)
+  .get("/loginFailed", compareCredentials)
   .post("/update", updatePassword)
   .use(pageNotFound);
   //.listen(8888);
@@ -148,62 +131,30 @@ function registerUser(req, res, next) {
 
 
   //Functie voor het vergelijken van de gebruiker zijn emailadres en wachtwoord
-// function compareCredentials(req, res) {
-//     db.collection('user').findOne(
-//       {
-//         email: req.body.emailadres,
-//       },
-//       done
-//     );
+function compareCredentials(req, res) {
+    db.collection('user').findOne(
+      {
+        email: req.body.emailadres,
+      },
+      done
+    );
   
-//     function done(err, data) {
-//       // console.log(data);
-//       if (err) {
-//         next(err);
-//       } else {
-//         if (wachtwoord === req.body.wachtwoord) {
-//           console.log("succesvol ingelogd");
-//           req.session.user = data.voornaam;
-//           res.redirect("/loginDone");
-//         } else {
-//           console.log("login mislukt");
-//           res.redirect("/login");
-//         }
-//       }
-//     }
-//   }
-
-//passport proberen
-
-
-
-passport.use(new LocalStrategy(
-  function(emailadres, wachtwoord, done) {
-    db.collection.findOne({ email: emailadres }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      if (!user.verifyPassword(wachtwoord)) { return done(null, false); }
-      return done(null, user);
-    });
+    function done(err, data) {
+      // console.log(data);
+      if (err) {
+        next(err);
+      } else {
+        if (wachtwoord === req.body.wachtwoord) {
+          console.log("succesvol ingelogd");
+          req.session.user = data.voornaam;
+          res.redirect("/loginDone");
+        } else {
+          console.log("login mislukt");
+          res.redirect("/login");
+        }
+      }
+    }
   }
-));
-
-passport.serializeUser(function(email, done) {
-  done(null, email.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  db.collection.findById(id, function (err, email) {
-    done(err, email);
-  });
-});
-
-app.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/loginDone');
-  });
-
 
 //update password function van Slack Inju
 function updatePassword(req, res) {
