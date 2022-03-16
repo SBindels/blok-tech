@@ -5,14 +5,14 @@ const bodyparser = require("body-parser");
 const ejs = require('ejs');
 const req = require('express/lib/request');
 const session = require("express-session");
+const User = require('./models/user');
 const port = process.env.port || 8888;
-//ObjectId = require("mongodb").ObjectID;
 
 require('dotenv').config()
 console.log(process.env)
 
 //MongoDB database
-let db;
+let db = null;
 let collectionUsers;
 const MongoClient = require("mongodb").MongoClient;
 
@@ -32,15 +32,20 @@ const client = new MongoClient(uri, {
 
 //database connect
 client.connect(function (err, client) {
+  console.log('connected to the database');
   if (err) {
     throw err;
   }
-  collectionUsers = client.db("mydatingapp").collection("user");
+  db = client.db("mydatingapp");
 });
 
+
 let data = {
-  title: "mydatingapp"
+  title: "mydatingapp",
 };
+
+exports.data = data;
+
 
 //routes
 app
@@ -66,6 +71,7 @@ app
   .use(pageNotFound);
   //.listen(8888);
 
+
 function users(req, res, next) {
     db.collection("user").find().toArray(done);
   
@@ -77,6 +83,7 @@ function users(req, res, next) {
       }
     }
   }
+
 
 app.get('/', (req, res) => {
     res.render('login.ejs', { data });
@@ -110,6 +117,7 @@ function registerUser(req, res, next) {
     }
   }
 
+
   //Functie voor het vergelijken van de gebruiker zijn emailadres en wachtwoord
 function compareCredentials(req, res) {
     db.collection("user").findOne(
@@ -128,9 +136,8 @@ function compareCredentials(req, res) {
           console.log("succesvol ingelogd :)");
           req.session.user = data.username;
           res.redirect("/loginDone");
-          // res.send("hoi");
         } else {
-          console.log("login mislukt :(");
+          console.log("login mislukt");
           res.redirect("/login");
         }
       }
@@ -159,5 +166,5 @@ function pageNotFound(req, res) {
   }
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Dating app is running on port ${port}`)
 })
