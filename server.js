@@ -184,6 +184,7 @@ function pageNotFound(req, res) {
     res.render("404.ejs");
   }
 
+//Heroku config vars? krijg nog steeds application error
 app.get('/times', (req, res) => res.send(showTimes()))
 
 showTimes = () => {
