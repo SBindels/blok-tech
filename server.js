@@ -132,14 +132,14 @@ function registerUser(req, res, next) {
 
   //Functie voor het vergelijken van de gebruiker zijn emailadres en wachtwoord
   // dit werkt niet... kijken naar een andere oplossing zoals passport
-function compareCredentials(req, res) {
-    db.collection('user').findOne(
+async function compareCredentials(req, res) {
+    const user = await db.collection('user').findOne(
       {
         email: req.body.emailadres,
       },
       done
     );
-  
+      console.log(user);
     function done(err, data) {
       // console.log(data);
       if (err) {
@@ -183,19 +183,6 @@ app.delete('/logout', (req, res) => {
 function pageNotFound(req, res) {
     res.render("404.ejs");
   }
-
-//Heroku config vars? krijg nog steeds application error
-// app.get('/times', (req, res) => res.send(showTimes()))
-
-// showTimes = () => {
-//   let result = '';
-//   const times = process.env.TIMES || 5;
-//   for (i = 0; i < times; i++) {
-//     result += i + ' ';
-//   }
-//   return result;
-// }
-
 
 app.listen(port, () => {
   console.log(`Dating app is running on port ${port}`)
