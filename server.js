@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt')
 const passport = require('passport');
 const { default: mongoose } = require('mongoose');
 const LocalStrategy = require('passport-local').Strategy
-const port = process.env.port || 8888;
+const port = process.env.PORT || 8888;
 
 require('dotenv').config()
 console.log(process.env)
