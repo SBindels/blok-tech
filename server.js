@@ -184,6 +184,18 @@ function pageNotFound(req, res) {
     res.render("404.ejs");
   }
 
+app.get('/times', (req, res) => res.send(showTimes()))
+
+showTimes = () => {
+  let result = '';
+  const times = process.env.TIMES || 5;
+  for (i = 0; i < times; i++) {
+    result += i + ' ';
+  }
+  return result;
+}
+
+
 app.listen(port, () => {
   console.log(`Dating app is running on port ${port}`)
 })
