@@ -35,6 +35,6 @@ Verdere ontwikkelingen is het veranderen naar Mongoose ipv alleen MongoDB. Hierm
 
 - Sjoerd Bindels
 
-### Licentie 
+## Licentie 
 
 Dit project is gelicenseerd met een MIT License.
