@@ -56,7 +56,7 @@ app
   .set("views", "view") // EJS files staan in /views
   .use(bodyparser.urlencoded({ extended: true })) // body-parser krijg je toegang tot Request body objecten zoals req.body.voornaam
   .use(
-    session({
+    session({ //Hierdoor blijft de gebruiker ingelogt ookal herlaad de pagina.
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: true,
@@ -88,7 +88,7 @@ function users(req, res, next) {
   }
 
 
-app.get('/', (req, res) => {
+app.get('/', (req, res) => { //root pagina, laad de login pagina
     res.render('login.ejs', { data });
 });
 
@@ -131,6 +131,7 @@ function registerUser(req, res, next) {
 
 
   //Functie voor het vergelijken van de gebruiker zijn emailadres en wachtwoord
+  // dit werkt niet... kijken naar een andere oplossing zoals passport
 function compareCredentials(req, res) {
     db.collection('user').findOne(
       {
