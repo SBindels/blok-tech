@@ -49,7 +49,7 @@ let data = {
 
 //exports.data = data;
 
-//routes
+//routes => TO DO deze EXTERN zetten naar routes.js
 app
   .use(express.static("public")) // gebruik de template engine EJS
   .set("view engine", "ejs")
