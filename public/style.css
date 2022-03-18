@@ -7,18 +7,38 @@
 }
 
 body {
-  background-color: white;
+  background-color: #9b59b6;
   font-family: "Roboto", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.registratie {
+  background-color:  #ffff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  width: 400px;
+  max-width: 100%;
+
 }
 
 h1 {
+  color: #eee;
   font-size: 1.5 em;
   text-align: center;
   margin: 1em 1em;
 }
 
-form label {
+a {
   display: block;
+}
+
+form label {
+  display: inline-block;
   text-align: center;
   margin: 0.5em;
 }
@@ -30,29 +50,36 @@ fieldset {
 
 input {
   border: 2px solid #eee;
-  background-color: #ffffff;
-  outline: none;
-  width: 60vw;
+  display: block;
+  width: 100%;
   padding: 0 10px;
-  box-sizing: border-box;
   height: 3.5em;
   font-size: 0.7em;
   font-weight: 400;
-  display: block;
-  margin: 0 auto;
+}
+
+input:focus {
+  outline: 0;
+  background-color: #b2b2b2;
+}
+
+p {
+  color: #e74c3c;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
 }
 
 button {
+  background-color: #8e44ad;
+  border: 2px solid #8e44ad;
   display: block;
-  padding: 1em 1.5em;
-  font-size: 1em;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: #fff;
-  background-color: #000;
-  border-color: #000;
-  border-radius: 5em;
-  text-align: center;
-  margin: 0 auto;
-  width: 10em;
+  border-radius: 4px;
+  color: #ffff;
+  font-family: inherit;
+  font-size: 16px;
+  padding: 10px;
+  margin-top: 20px;
+  width: 75%;
 }
