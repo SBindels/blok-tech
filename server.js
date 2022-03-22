@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const mongo = require("mongodb");
+const User = require('./models/user')
 const bodyparser = require("body-parser");
 const ejs = require('ejs');
 const req = require('express/lib/request');
@@ -156,6 +157,33 @@ async function compareCredentials(req, res) {
       }
     }
   }
+
+
+//nieuwe functie compare
+
+async function compareCredentials(req, res) {
+  const user = await db.collection('user').findOne(
+    {
+      email: req.body.emailadres,
+    },
+    done
+  );
+    console.log(user);
+  function done(err, data) {
+    // console.log(data);
+    if (err) {
+      next(err);
+    } else {
+      if (wachtwoord === user.wachtwoord) {
+        console.log("succesvol ingelogd");
+        res.redirect("/loginDone");
+      } else {
+        console.log("login mislukt");
+        res.redirect("/login");
+      }
+    }
+  }
+}
 
 //update password function van Slack Inju
 function updatePassword(req, res) {
