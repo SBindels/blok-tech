@@ -1,19 +1,19 @@
-//database connect file
-const mongoose = require('mongoose');
+// require mongoose
+const mongoose = require('mongoose')
 
+// connect to MongoDB
 const connectDB = () => {
-    try {
-         mongoose.createConnection (process.env.MONGO_URI,
-            {
-              useNewUrlParser: true,
-              useUnifiedTopology: true
-            }
-          );
-          console.log('connected to the database via mongoose'); 
-    } catch (err) {
-        console.log("failed to connect to the database");
-    }
-};
+  try {
+    
+    mongoose.connect (process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    console.log('connected met mongoose')
+  } catch (err) {
+    console.log ('error bij het verbinden met de database',)
+  }
+ }
 
-module.exports = connectDB;
-
+// export connectDB function 
+module.exports = connectDB
