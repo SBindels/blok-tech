@@ -1,22 +1,19 @@
 //database connect file
-
 const mongoose = require('mongoose');
 
-//proberen mongoose ipv mongodb voor passport
-
-
-const connectDB = async() => {
+const connectDB = () => {
     try {
-        await mongoose.connect(
-            "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASS + "@datingapp.abpqe.mongodb.net/test",
+         mongoose.createConnection (process.env.MONGO_URI,
             {
               useNewUrlParser: true,
               useUnifiedTopology: true
             }
           );
-          console.log('connected to the database via mongoose'), 
+          console.log('connected to the database via mongoose'); 
     } catch (err) {
         console.log("failed to connect to the database");
     }
 };
+
+module.exports = connectDB;
 
