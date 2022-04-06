@@ -6,51 +6,39 @@ const bodyparser = require("body-parser");
 const ejs = require('ejs');
 const req = require('express/lib/request');
 const session = require("express-session");
+const connectDB = require('./config/connect')
 const bcrypt = require('bcrypt')
-const passport = require('passport');
-const { default: mongoose } = require('mongoose');
-const LocalStrategy = require('passport-local').Strategy
+require('dotenv').config()
+connectDB();
+
 const port = process.env.PORT || 8888;
 
-require('dotenv').config()
+
 console.log(process.env)
 
 //MongoDB database connection
-let db = null;
-const MongoClient = require("mongodb").MongoClient;
+// let db = null;
+// const MongoClient = require("mongodb").MongoClient;
 
-const uri = "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASS + "@datingapp.abpqe.mongodb.net/test";
+// const uri = "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASS + "@datingapp.abpqe.mongodb.net/test";
 
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// const client = new MongoClient(uri, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
 
-client.connect(function (err, client) {
-  console.log('connected to the database');
-  if (err) {
-    throw err;
-  }
-  db = client.db("mydatingapp");
-});
-
-//proberen mongoose ipv mongodb voor passport
-// mongoose.connect(
-//   "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASS + "@datingapp.abpqe.mongodb.net/test",
-//   console.log('connected to the database via mongoose'),
-//   {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true
+// client.connect(function (err, client) {
+//   console.log('connected to the database');
+//   if (err) {
+//     throw err;
 //   }
-// );
+//   db = client.db("mydatingapp");
+// });
 
 let data = {
   title: "datingapp",
 };
 
-//exports.data = data;
-
-//routes => TO DO deze EXTERN zetten naar routes.js
 app
   .use(express.static("public")) // gebruik de template engine EJS
   .set("view engine", "ejs")
@@ -130,58 +118,53 @@ function registerUser(req, res, next) {
     }
   }
 
+  //nieuwe register
+  // async function registerUser(req, res) {
 
-  //Functie voor het vergelijken van de gebruiker zijn emailadres en wachtwoord
-  // dit werkt niet... kijken naar een andere oplossing zoals passport
+  //   const naam = req.body.voornaam
+  //   const email = req.body.emailadres
+  //   const wachtwoord = req.body.wachtwoord
+  //   }
+  
+  //   try {
+         
+  //     const newUser = User.create({
+  //           email: email,
+  //           voornaam: voornaam,
+  //           wachtwoord: wachtwoord
+  //         })
+  //       return newUser,
+  //       res.redirect('/login')
+  //   } catch {
+  //     console.log('Niet gelukt om een account aan te maken, probeer het nog eens')
+  //       res.redirect('/login')
+  //   }
+
+
+//nieuwe functie compare (deze zou werken)
 async function compareCredentials(req, res) {
-    const user = await db.collection('user').findOne(
-      {
-        email: req.body.emailadres,
-      },
-      done
-    );
-      console.log(user);
-    function done(err, data) {
-      // console.log(data);
-      if (err) {
-        next(err);
+  try {
+    const deGebruiker = await User.findOne({'email': req.body.emailadres}).lean()
+    const wachtwoord = req.body.wachtwoord
+    console.log(deGebruiker);
+
+    if(deGebruiker){
+      console.log(deGebruiker.wachtwoord === wachtwoord)
+      if (deGebruiker.wachtwoord === wachtwoord) {
+        // return deGebruiker
+        res.redirect('/loginDone')
+        console.log('succesvol ingelogd')
       } else {
-        if (wachtwoord === req.body.wachtwoord) {
-          console.log("succesvol ingelogd");
-          req.session.user = data.voornaam;
-          res.redirect("/loginDone");
-        } else {
-          console.log("login mislukt");
-          res.redirect("/login");
-        }
+        //return 'invalid password'
+        console.log('wachtwoord niet correct')
       }
-    }
-  }
-
-
-//nieuwe functie compare
-
-async function compareCredentials(req, res) {
-  const user = await db.collection('user').findOne(
-    {
-      email: req.body.emailadres,
-    },
-    done
-  );
-    console.log(user);
-  function done(err, data) {
-    // console.log(data);
-    if (err) {
-      next(err);
     } else {
-      if (wachtwoord === user.wachtwoord) {
-        console.log("succesvol ingelogd");
-        res.redirect("/loginDone");
-      } else {
-        console.log("login mislukt");
-        res.redirect("/login");
-      }
+      // return 'user was not found'
+      console.log('gebruiker niet gevonden')
     }
+
+  } catch (error) {
+    throw new Error(error)
   }
 }
 
