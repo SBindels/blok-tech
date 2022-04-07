@@ -5,9 +5,8 @@ const bodyparser = require("body-parser");
 const ejs = require('ejs');
 const req = require('express/lib/request');
 const session = require('express-session');
-const bcrypt = require('bcrypt')
 require('dotenv').config()
-const dotenv = require('dotenv').config()
+//const dotenv = require('dotenv').config()
 
 
 const connectDB = require('./config/connect');
@@ -20,7 +19,7 @@ app.set('views', './view');
 
 //session
 app.use(session({
-    secret: process.env.SESSION_SECTRET,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
@@ -31,9 +30,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 //routes
-app.use(app.routes);
-routes.initialize(app);
-
+app.use(routes);
 
 app.post('/logout', (req, res) => {
     req.logout();

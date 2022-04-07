@@ -2,9 +2,9 @@
   "name": "blok-tech",
   "version": "1.0.0",
   "description": "project for blok-tech",
-  "main": "server.js",
+  "main": "newserver.js",
   "scripts": {
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon newserver.js"
   },
   "repository": {
     "type": "git",
