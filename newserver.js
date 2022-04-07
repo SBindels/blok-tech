@@ -1,21 +1,21 @@
 const express = require('express')
 const app = express()
-const mongo = require("mongodb");
+const routes = require('./routes');
 const bodyparser = require("body-parser");
 const ejs = require('ejs');
 const req = require('express/lib/request');
-const session = require("express-session");
+const session = require('express-session');
 const bcrypt = require('bcrypt')
 require('dotenv').config()
 const dotenv = require('dotenv').config()
 
 
-const connectDB = require('./config/connect')
+const connectDB = require('./config/connect');
 connectDB();
 
 const port = process.env.PORT || 8888;
 
-app.set('view engine', 'esj');
+app.set('view engine', 'ejs');
 app.set('views', './view');
 
 //session
@@ -31,7 +31,9 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 //routes
-//app.use('/', routes);
+app.use(app.routes);
+routes.initialize(app);
+
 
 app.post('/logout', (req, res) => {
     req.logout();

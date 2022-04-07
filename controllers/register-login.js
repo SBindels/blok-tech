@@ -11,13 +11,13 @@ const registratieForm = (req, res) => {
 
 const register = async (req, res) => {
     const email = req.body.email
-    const gebruikersnaam = req.body.gebruikersnaam
+    const username = req.body.username
     const wachtwoord = req.body.wachtwoord
   
     try {
           const result = await User.create({
             email: email,
-            gebruikersnaam: gebruikersnaam,
+            username: username,
             wachtwoord: wachtwoord
           })
 
@@ -28,7 +28,7 @@ const register = async (req, res) => {
       console.log(error);
       //functie met dezelfde gebruiker.
       console.log('Niet gelukt om een account aan te maken, probeer het nog eens')
-        res.redirect('/register')
+        res.redirect('/registeren')
     }
   }
 
