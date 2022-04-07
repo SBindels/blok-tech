@@ -4,24 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="public/style.css">
+    <link href="style.css" rel="stylesheet" type="text/css">
     <title>Document</title>
 </head>
 <body>
-    <h1>Inloggen</h1>
-    <form action= "/login" method= post>
-        <fieldset>
-            <label for="emailadres">emailadres</label>
-            <input type="email" name="email" id="email" required>
-        </fieldset>
-        <fieldset>
-            <label for="pass">wachtwoord</label>
-            <input type="password" name="password" id="password" required>
-        </fieldset>
-        <button type="submit" name="button">inloggen</button>
-    </form>
+    <h1 class="header-text">Inloggen</h1>
+    <section class="registratie">
+        <form action= "/login" method= post>
+            <fieldset>
+                <label for="emailadres">emailadres</label>
+                <input type="email" name="email" id="email" required>
+            </fieldset>
+            <fieldset>
+                <label for="pass">wachtwoord</label>
+                <input type="password" name="password" id="password" required>
+            </fieldset>
+            <button type="submit" name="button">inloggen</button>
+        </form>
 
-    <a href="/register">registreren</a>
+
+    </section>
+    
+    <section>
+        <a href="/register">registreren</a>
+
+    </section>
+    
     
 </body>
 </html>
