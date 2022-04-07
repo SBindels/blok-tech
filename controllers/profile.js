@@ -11,7 +11,7 @@ const profile = async (req, res) => {
 const logout = (req, res) => {
     session.isLoggedIn = false;
     res.redirect('/login');
-    console.log('uitgelogd');
+    console.log('je bent uitgelogd');
 }
 
 module.exports = {
