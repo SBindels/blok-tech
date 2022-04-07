@@ -74,26 +74,25 @@ const register = async (req, res) => {
 // }
 
 //zonder hash
+//deGebruiker const naam aanpassen
 const login = async (req, res) => {
     try {
-        const User = await User.findOne({
-            'email': req.body.email
-        }).lean()
+
+        const deGebruiker = await User.findOne({'email': req.body.email}).lean();
+        
         const password = req.body.password
         console.log(User)
 
-        if (User) {
-            User.password === password;
+        if (deGebruiker) {
+            deGebruiker.password === password;
             session = req.session;
             session.email = req.body.email;
-            session.name = User.username;
+            session.name = deGebruiker.username;
             session.isLoggedIn = true;
             console.log(session);
-            // return deGebruiker
             res.redirect('/profile')
             console.log('succesvol ingelogd')
         } else {
-            //return 'invalid password'
             console.log('invalid password')
         }
 
