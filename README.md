@@ -9,10 +9,6 @@ Binnen het functie kan je als nieuwe gebruiker een account registreren binnen mi
 Binnen de huidige versie van mn functie gebruik ik MongoDB als mn database. 
 In MongoDB Atlas is een cluster gemaakt met daarin de database `mydatingapp`, hierin zit de collectie `mydatingapp.user`.
 
-## Ontwikkelingen
-
-Verdere ontwikkelingen is het veranderen naar Mongoose ipv alleen MongoDB. Hiermee wil ik `Passport` implementeren voor de authenticatie bij de inloggen. De functie dit ik nu heb voor de authenticatie werkt niet, daardoor hoop ik dat `Passport` een betere oplossing is.
-
 ## Use
 
 1. Clone de applicatie naar jou eigen code editor met git clone
