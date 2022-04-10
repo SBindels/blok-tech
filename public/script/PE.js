@@ -1,10 +1,14 @@
 //file for progressive enhancement form
 console.log('hello world');
 
-const form = document.getElementById('form');
-const username = document.getElementById('voornaam');
+const form = document.getElementById('progressive-form');
+const username = document.getElementById('username');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
+
+const errorUsername = document.getElementById('errorUsername');
+const errorEmail = document.getElementById('errorEmail');
+const errorPassword = document.getElementById('errorPassword');
 
 form.addEventListener('submit', e => {
 	e.preventDefault();
