@@ -2,7 +2,7 @@
 
 ## Registratie en Login
 
-Binnen het functie kan je als nieuwe gebruiker een account registreren binnen mijn dating app. In het registratie formulier moet de gebruiker een username, emailadres en wachtwoord invoeren. Deze gegevens worden opgeslagen in mijn MongoDB database. Daarna wordt de gebruiker geredirect naar een login pagina. Met het aangemaakte account kan er ingelogd worden.
+Binnen deze functie kan je als nieuwe gebruiker een account registreren binnen mijn dating app. In het registratie formulier moet de gebruiker een username, emailadres en wachtwoord invoeren. Deze gegevens worden opgeslagen in mijn MongoDB database. Daarna wordt de gebruiker geredirect naar een login pagina. Met het aangemaakte account kan er ingelogd worden.
 
 ## Database
 
